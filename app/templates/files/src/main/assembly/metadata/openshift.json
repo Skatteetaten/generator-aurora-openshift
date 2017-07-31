@@ -1,0 +1,15 @@
+{
+  "docker": {
+    "maintainer": "<%=maintainer%>",
+    "labels": {
+      "maintainer": "<%=maintainer%>",
+      "io.k8s.description": "<%=description%>",
+      "io.openshift.tags": "openshift,springboot"
+    }
+  },
+  "java": {
+    "mainClass": "<%=packageName%>.Main",
+    "jvmOpts": "-Dspring.profiles.active=openshift",
+    "applicationArgs": "--logging.config=${LOGBACK_FILE}"
+  }
+}

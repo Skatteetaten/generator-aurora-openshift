@@ -1,0 +1,9 @@
+spring:
+    main:
+        banner-mode: "off"
+    application:
+        name: <%=baseName%>
+
+
+management:
+    port: 0

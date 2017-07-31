@@ -1,0 +1,47 @@
+info:
+    serviceLinks:
+        metrics: "{metricsHostname}/dashboard/db/openshift-project-spring-actuator-view?var-ds=openshift-{cluster}-ose&var-namespace={namespace}&var-app={name}"
+        api-doc: "http://${ROUTE_NAME}/docs/index.html"
+    podLinks:
+        metrics: "{metricsHostname}/dashboard/db/openshift-project-spring-actuator-view-instance?var-ds=openshift-{cluster}-ose&var-namespace={namespace}&var-app={name}&var-instance={podName}"
+    dependencies:
+        skatteetaten: "skatteetaten"
+
+aurora:
+    #setting a db here will create a datasource from a database with that name.
+    #in AOC config file
+    <% if (oracle) { %> db: <%=dbName%> <% } %>
+    client:
+        metricsPathLabelGroupings:
+            httpbin: ".*httpbin.org.*"
+
+spring:
+    profiles:
+        active: local
+
+logging:
+    level:
+      ske.aurora: DEBUG
+      org:
+        springframework: WARN
+        apache.catalina: WARN
+        hibernate: WARN
+
+---
+spring:
+  profiles: local
+  <% if (oracle) { %>
+  datasource:
+    # id: 02150c29-6ab9-4917-bd56-1ba63d4f46d5"
+    url: jdbc:oracle:thin:@uil0map-drivein-db02:1521/dbhotel
+    username: MFBDNLMIQTWTWNWEQOMLPAAPJDKSYV
+    password: qWieNxGpdFcjVOHPiaCTcmJqYdgYkk
+ <% } %>
+
+management:
+    port: 8081
+
+logging:
+    pattern:
+      console: "%d [%-9.9thread] %-5level %logger %X - %msg %n%rEx{full}"
+

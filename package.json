@@ -1,0 +1,26 @@
+{
+  "name": "generator-aurora-openshift",
+  "version": "1.0.0",
+  "description": "A Yeoman Generator for creating applications to run on the Aurora Openshift plattform",
+  "keywords": [
+    "yeoman-generator"
+  ],
+  "homepage": "https://github.com/skatteetaten/generator-aurora-openshift",
+  "bugs": "https://github.com/skatteetaten/generator-aurora-openshift",
+  "author": {
+    "name": "Bjarte Stien Karlsen",
+    "email": "bjarte.karlsen@skatteetaten.no",
+    "url": "https://github.com/bjartek"
+  },
+  "files": [
+    "app"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/skatteetaten/generator-aurora-openshift.git"
+  },
+  "dependencies": {
+    "yeoman-generator": "^1.0.0"
+  },
+  "license": "Apache-2.0"
+}
