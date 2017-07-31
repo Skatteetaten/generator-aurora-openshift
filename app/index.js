@@ -85,7 +85,7 @@ module.exports = class extends Generator {
           type: 'string',
           name: 'namespace',
           message: 'Namespace:',
-          default: username,
+          default: this.username,
           store: true,
           when: function (answers) {
             return answers.openshift
@@ -152,7 +152,7 @@ module.exports = class extends Generator {
     this.spawnCommandSync('git', ['checkout', '-b', 'dev', '-q']);
     this.spawnCommandSync('git', ['add', '--all']);
     this.spawnCommandSync('git', ['commit', '-m', '"initial commit from aurora-openshift generator"', '-q']);
-    this.spawnCommandSync('mvn', ['clean', 'upload']);
+    this.spawnCommandSync('mvn', ['clean', 'deploy']);
 
     if(this.openshift) {
       this.log("call aoc setup and aoc deploy")
