@@ -85,13 +85,13 @@ module.exports = class extends Generator {
       this.templatePath('packageFiles/src/main/java/**/*'),
       this.destinationPath('src/main/java/' + packageFolder), this.parameters);
 
-    if (this.spock) {
+    if (this.parameters.spock) {
         this.fs.copyTpl(
             this.templatePath('packageFiles/src/test/groovy/**/*'),
             this.destinationPath('src/test/groovy/' + packageFolder), this.parameters);
     }
 
-    if (this.dbExample) {
+    if (this.parameters.dbExample) {
       this.fs.copyTpl(
         this.templatePath('examples/counter/files/**/*'),
         this.destinationPath(""), this.parameters);
