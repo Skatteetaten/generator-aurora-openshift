@@ -19,7 +19,7 @@ module.exports = class extends Generator {
           type: 'string',
           name: 'packageName',
           message: 'Package name:',
-          default: 'no.skatteetaten.aurora',
+          default: 'no.skatteetaten.aurora.demo',
           store: true
         },
         {
@@ -83,27 +83,27 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath('files/**/*'),
-      this.destinationPath(""));
+      this.destinationPath(""), this);
 
 
     this.fs.copyTpl(
       this.templatePath('packageFiles/src/main/java/**/*'),
-      this.destinationPath('src/main/java/' + packageFolder));
+      this.destinationPath('src/main/java/' + packageFolder), this);
 
     if (this.spock) {
         this.fs.copyTpl(
             this.templatePath('packageFiles/src/test/groovy/**/*'),
-            this.destinationPath('src/test/groovy/' + packageFolder));
+            this.destinationPath('src/test/groovy/' + packageFolder), this);
     }
 
     if (this.dbExample) {
       this.fs.copyTpl(
         this.templatePath('examples/counter/files/**/*'),
-        this.destinationPath(""));
+        this.destinationPath(""), this);
 
       this.fs.copyTpl(
         this.templatePath('examples/counter/packageFiles/src/main/java/**/*'),
-        this.destinationPath('src/main/java/' + packageFolder));
+        this.destinationPath('src/main/java/' + packageFolder), this);
     }
   }
 
