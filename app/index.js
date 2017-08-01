@@ -8,7 +8,7 @@ module.exports = class extends Generator {
     super(args, opts);
 
     var whoamiCmd = this.spawnCommandSync('whoami', { stdout: "pipe" });
-    this.username = whoamiCmd.toString().replace("\n", "")
+    this.username = whoamiCmd.toString().replace("\n", "");
   }
 
   prompting() {
@@ -43,7 +43,7 @@ module.exports = class extends Generator {
           message: 'Enter database name in Oracle, if empty will not use database:',
           "default": "db",
           when: function (answers) {
-            return answers.oracle
+            return answers.oracle;
           }
         },
         {
@@ -52,7 +52,7 @@ module.exports = class extends Generator {
           message: 'Include database example:',
           default: true,
           when: function (answers) {
-            return answers.oracle
+            return answers.oracle;
           }
         }, {
           type: 'confirm',
@@ -68,7 +68,7 @@ module.exports = class extends Generator {
         }, {
           type: 'confirm',
           name: 'openshift',
-          message: 'Deploy to Openshift?',
+          message: 'Deploy to OpenShift?',
           default: true
         },
         {
@@ -78,7 +78,7 @@ module.exports = class extends Generator {
           default: 'paas',
           store: true,
           when: function (answers) {
-            return answers.openshift
+            return answers.openshift;
           }
         },
         {
@@ -88,7 +88,7 @@ module.exports = class extends Generator {
           default: this.username,
           store: true,
           when: function (answers) {
-            return answers.openshift
+            return answers.openshift;
           }
         }
       ]
@@ -124,12 +124,13 @@ module.exports = class extends Generator {
       this
     );
 
-    this.fs.copyTpl(
-      this.templatePath('packageFiles/src/test/groovy/**/*'),
-      this.destinationPath('src/test/groovy/' + packageFolder),
-      this
-    );
-
+    if (this.spock) {
+        this.fs.copyTpl(
+            this.templatePath('packageFiles/src/test/groovy/**/*'),
+            this.destinationPath('src/test/groovy/' + packageFolder),
+            this
+        );
+    }
 
     if (this.dbExample) {
       this.fs.copyTpl(
