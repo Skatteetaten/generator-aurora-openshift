@@ -7,18 +7,14 @@ module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
-    var whoamiCmd = this.spawnCommandSync('whoami', { stdout: "pipe" });
-    this.username = whoamiCmd.toString().replace("\n", "");
+    this.argument('name', { type: String, required: true, desc: 'The name of the application' });
+
+    this.baseName=this.options.name
+
   }
 
   prompting() {
     return this.prompt([
-        {
-          type: 'string',
-          name: 'baseName',
-          message: 'Name:',
-          default: path.basename(process.cwd())
-        },
         {
           type: 'string',
           name: 'packageName',
@@ -34,7 +30,7 @@ module.exports = class extends Generator {
         {
           type: 'confirm',
           name: 'oracle',
-          message: 'Do you need an Oracle database name:',
+          message: 'Do you need an Oracle database name?',
           default: false
         },
         {
@@ -49,7 +45,7 @@ module.exports = class extends Generator {
         {
           type: 'confirm',
           name: 'dbExample',
-          message: 'Include database example:',
+          message: 'Include database example?',
           default: true,
           when: function (answers) {
             return answers.oracle;
@@ -65,35 +61,9 @@ module.exports = class extends Generator {
           message: 'Maintainer:',
           default: this.user.git.name() + " <" + this.user.git.email() + ">",
           store: true
-        }, {
-          type: 'confirm',
-          name: 'openshift',
-          message: 'Deploy to OpenShift?',
-          default: true
-        },
-        {
-          type: 'string',
-          name: 'affiliation',
-          message: 'Affiliation:',
-          default: 'paas',
-          store: true,
-          when: function (answers) {
-            return answers.openshift;
-          }
-        },
-        {
-          type: 'string',
-          name: 'namespace',
-          message: 'Namespace:',
-          default: this.username,
-          store: true,
-          when: function (answers) {
-            return answers.openshift;
-          }
         }
       ]
     ).then((props) => {
-      this.baseName = props.baseName;
       this.packageName = props.packageName;
       this.oracle = props.oracle;
       this.dbName = props.dbName;
@@ -113,53 +83,37 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath('files/**/*'),
-      this.destinationPath(""),
-      this
-    );
+      this.destinationPath(""));
 
 
     this.fs.copyTpl(
       this.templatePath('packageFiles/src/main/java/**/*'),
-      this.destinationPath('src/main/java/' + packageFolder),
-      this
-    );
+      this.destinationPath('src/main/java/' + packageFolder));
 
     if (this.spock) {
         this.fs.copyTpl(
             this.templatePath('packageFiles/src/test/groovy/**/*'),
-            this.destinationPath('src/test/groovy/' + packageFolder),
-            this
-        );
+            this.destinationPath('src/test/groovy/' + packageFolder));
     }
 
     if (this.dbExample) {
       this.fs.copyTpl(
         this.templatePath('examples/counter/files/**/*'),
-        this.destinationPath(""),
-        this
-      );
+        this.destinationPath(""));
 
       this.fs.copyTpl(
         this.templatePath('examples/counter/packageFiles/src/main/java/**/*'),
-        this.destinationPath('src/main/java/' + packageFolder),
-        this
-      );
+        this.destinationPath('src/main/java/' + packageFolder));
     }
   }
 
   install() {
 
     this.spawnCommandSync('git', ['init', '-q']);
-    this.spawnCommandSync('git', ['checkout', '-b', 'dev', '-q']);
+    this.spawnCommandSync('git', ['checkout', '-b', 'yo-generator', '-q']);
     this.spawnCommandSync('git', ['add', '--all']);
     this.spawnCommandSync('git', ['commit', '-m', '"initial commit from aurora-openshift generator"', '-q']);
     this.spawnCommandSync('mvn', ['clean', 'deploy']);
-
-    if(this.openshift) {
-      this.log("call aoc setup and aoc deploy")
-      //this.spawnCommandSync('mvn', ['clean', 'upload']);
-
-    }
   }
 
 };
