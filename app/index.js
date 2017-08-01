@@ -1,5 +1,4 @@
 'use strict';
-const path = require('path');
 
 var Generator = require('yeoman-generator');
 
@@ -13,14 +12,14 @@ module.exports = class extends Generator {
 
   }
 
+
   prompting() {
     return this.prompt([
         {
           type: 'string',
           name: 'packageName',
           message: 'Package name:',
-          default: 'no.skatteetaten.aurora.demo',
-          store: true
+          default: 'no.skatteetaten.aurora.demo'
         },
         {
           type: 'string',
@@ -59,18 +58,12 @@ module.exports = class extends Generator {
           type: 'string',
           name: 'maintainer',
           message: 'Maintainer:',
-          default: this.user.git.name() + " <" + this.user.git.email() + ">",
-          store: true
+          default: this.user.git.name() + " <" + this.user.git.email() + ">"
         }
       ]
     ).then((props) => {
-      this.packageName = props.packageName;
-      this.oracle = props.oracle;
-      this.dbName = props.dbName;
-      this.dbExample = props.dbExample;
-      this.spock = props.spock;
-      this.maintainer = props.maintainer;
-      this.description = props.description;
+      props.baseName= this.baseName
+      this.parameters=props
 
     })
 
@@ -79,31 +72,33 @@ module.exports = class extends Generator {
 
   writing() {
 
-    var packageFolder = this.packageName.replace(/\./g, '/');
+    var packageFolder = this.parameters.packageName.replace(/\./g, '/');
+
+    this.config.set(this.parameters);
 
     this.fs.copyTpl(
       this.templatePath('files/**/*'),
-      this.destinationPath(""), this);
+      this.destinationPath(""), this.parameters);
 
 
     this.fs.copyTpl(
       this.templatePath('packageFiles/src/main/java/**/*'),
-      this.destinationPath('src/main/java/' + packageFolder), this);
+      this.destinationPath('src/main/java/' + packageFolder), this.parameters);
 
     if (this.spock) {
         this.fs.copyTpl(
             this.templatePath('packageFiles/src/test/groovy/**/*'),
-            this.destinationPath('src/test/groovy/' + packageFolder), this);
+            this.destinationPath('src/test/groovy/' + packageFolder), this.parameters);
     }
 
     if (this.dbExample) {
       this.fs.copyTpl(
         this.templatePath('examples/counter/files/**/*'),
-        this.destinationPath(""), this);
+        this.destinationPath(""), this.parameters);
 
       this.fs.copyTpl(
         this.templatePath('examples/counter/packageFiles/src/main/java/**/*'),
-        this.destinationPath('src/main/java/' + packageFolder), this);
+        this.destinationPath('src/main/java/' + packageFolder), this.parameters);
     }
   }
 
