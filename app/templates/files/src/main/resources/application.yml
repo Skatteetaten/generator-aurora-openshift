@@ -1,30 +1,53 @@
 info:
     serviceLinks:
-        metrics: "{metricsHostname}/dashboard/db/openshift-project-spring-actuator-view?var-ds=openshift-{cluster}-ose&var-namespace={namespace}&var-app={name}"
-        api-doc: "http://${ROUTE_NAME}/docs/index.html"
-    podLinks:
-        metrics: "{metricsHostname}/dashboard/db/openshift-project-spring-actuator-view-instance?var-ds=openshift-{cluster}-ose&var-namespace={namespace}&var-app={name}&var-instance={podName}"
-    dependencies:
-        skatteetaten: "skatteetaten"
+        api-doc: ${route.name}/docs/index.html
+    auroraVersion: ${aurora.version:local-dev}
+    imageBuildTime: ${image.build.time:}
 
 aurora:
+
+    <% if (oracle) { %>
     #setting a db here will create a datasource from a database with that name.
     #in AOC config file
-    <% if (oracle) { %> db: <%=dbName%> <% } %>
+    db: <%=dbName%> <% }
+    if (controllerExample) { %>
     client:
         metricsPathLabelGroupings:
             httpbin: ".*httpbin.org.*"
+     <% } %>
+
 
 spring:
-    profiles:
-        active: local
-
+  profiles:
+    active: local<% if (reactive) { %>
+  application:
+    name: ${pod.name:<%=consumerGroup%>}
+  cloud:
+    stream:
+      kafka:
+        binder:
+          zkNodes: <%=zookeeper%>
+          brokers: <%=kafka%>
+      default:
+        group: <%=consumerGroup%>
+      bindings:
+        <% if (kafkaSink) { %>output:
+          destination: <%=topicWrite%>
+        loggingIn:
+          destination: <%=topicWrite%><% } %>
+        <% if (kafkaSource) { %>input:
+          destination: <%=topicRead%>
+        loggingErr:
+          destination: error.<%=topicRead%>.<%=consumerGroup%><% } %>
+<% } %>
 logging:
     level:
-      ske.aurora: DEBUG
+      ske.aurora: INFO
+      no.skatteetaten.aurora: INFO
       org:
-        springframework: WARN
+        <% if (reactive) { %>apache: ERROR<% } %>
         apache.catalina: WARN
+        springframework: WARN
         hibernate: WARN
 
 ---
@@ -38,10 +61,16 @@ spring:
     password: qWieNxGpdFcjVOHPiaCTcmJqYdgYkk
  <% } %>
 
-management:
-    port: 8081
+  <% if (reactive) { %>
+  # you have to download kafka 0.10.1 and start it and zookeeper at standard paths. Follow instructions in readme"
+  cloud:
+    stream:
+        kafka:
+          binder:
+            zkNodes: localhost
+            brokers: localhost
+   <% } %>
 
 logging:
     pattern:
-      console: "%d [%-9.9thread] %-5level %logger %X - %msg %n%rEx{full}"
-
+      console: "%date{HH:mm:ss.SSS} [%-9.9thread] %highlight(%-5level) %cyan(%logger{15}):%line %X - %msg %n%rEx{full}"

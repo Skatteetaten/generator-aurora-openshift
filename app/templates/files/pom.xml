@@ -17,12 +17,9 @@
     <relativePath />
   </parent>
 
-  <prerequisites>
-    <maven>${maven.min-version}</maven>
-  </prerequisites>
 
   <properties>
-    <aurora.starters.version>2.1.0</aurora.starters.version>
+    <aurora.starters.version>2.1-SNAPSHOT</aurora.starters.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -279,7 +276,6 @@
                 <requireMavenVersion>
                   <version>[${maven.min-version},)</version>
                 </requireMavenVersion>
-                <DependencyConvergence />
                 <requirePluginVersions>
                   <message>Best Practice is to always define plugin versions!</message>
                   <banLatest>true</banLatest>
@@ -314,7 +310,12 @@
       <artifactId>aurora-spock-spring-boot-starter</artifactId>
       <version>${aurora.starters.version}</version>
       <scope>test</scope>
-    </dependency><%}%>
+    </dependency><%}%><% if (reactive) { %>
+    <dependency>
+      <groupId>no.skatteetaten.aurora.springboot</groupId>
+      <artifactId>aurora-reactive-kafka-spring-boot-starter</artifactId>
+      <version>${aurora.starters.version}</version>
+    </dependency><% } %>
   </dependencies>
 
   <profiles>
