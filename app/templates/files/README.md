@@ -10,6 +10,6 @@ Head over to [http://skatteetaten.github.io](http://skatteetaten.github.io) if y
 
 ## How was this made?
 
-This is a spring boot reference application generated from yeoman template aurora-openshift using the following arguments
+This is a spring boot reference application generated from yeoman template aurora-openshift. The arguments used to 
+generate this instance is in the file .yo-rc.json in the root folder.
 
-<%- JSON.stringify(dump) %>

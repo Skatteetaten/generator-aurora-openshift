@@ -127,19 +127,18 @@ module.exports = class extends Generator {
       ]
     ).then((props) => {
 
-      props.kafkaSink = false;
-      props.kafkaSource = false;
+      props.kafkaSink = false
+      props.kafkaSource = false
       if (props.topicWrite !== "") {
-        props.kafkaSink = true;
+        props.kafkaSink = true
       }
 
       if (!(!props.topicRead)) {
-        props.kafkaSource = true;
+        props.kafkaSource = true
       }
 
       props.baseName = this.baseName
       this.parameters = props
-
 
     })
 
@@ -151,7 +150,6 @@ module.exports = class extends Generator {
     let packageFolder = this.parameters.packageName.replace(/\./g, '/');
 
     this.config.set(this.parameters);
-    this.parameters.dump=this.parameters
 
     this.fs.copyTpl(
       this.templatePath('files/**/*'),
