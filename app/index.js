@@ -29,7 +29,7 @@ module.exports = class extends Generator {
         {
           type: 'confirm',
           name: 'oracle',
-          message: 'Do you need an Oracle database name?',
+          message: 'Do you need an Oracle database?',
           default: false
         },
         {
@@ -47,7 +47,7 @@ module.exports = class extends Generator {
           name: 'reactive',
           message: 'Do you want to use Spring Cloud Stream with Kafka?',
           default: false
-        },*/
+        },
         {
           type: 'string',
           name: 'topicWrite',
@@ -99,7 +99,7 @@ module.exports = class extends Generator {
           when: function (answers) {
             return answers.reactive;
           }
-        },
+        },*/
         {
           type: 'confirm',
           name: 'dbExample',
@@ -117,7 +117,7 @@ module.exports = class extends Generator {
           type: 'confirm',
           name: 'controllerExample',
           message: 'Do you want an example HTTP controller:',
-          default: false,
+          default: true,
         },
         {
           type: 'string',
@@ -137,6 +137,7 @@ module.exports = class extends Generator {
       if (!(!props.topicRead)) {
         props.kafkaSource = true
       }
+      props.reactive=false
 
       props.baseName = this.baseName
       this.parameters = props
