@@ -41,12 +41,13 @@ module.exports = class extends Generator {
             return answers.oracle;
           }
         },
+      /* We do not use this for now, so we just comment it out but leave everything in place
         {
           type: 'confirm',
           name: 'reactive',
           message: 'Do you want to use Spring Cloud Stream with Kafka?',
           default: false
-        },
+        },*/
         {
           type: 'string',
           name: 'topicWrite',
