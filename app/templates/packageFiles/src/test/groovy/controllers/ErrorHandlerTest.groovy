@@ -2,14 +2,14 @@ package <%=packageName%>.controllers
 
 import org.springframework.http.HttpStatus
 
+import io.micrometer.spring.web.ControllerMetrics
 import spock.lang.Specification
 
 class ErrorHandlerTest extends Specification {
 
   public static final String ERROR_MESSAGE = "Test"
   public static final String ROOT_CAUSE = "Root cause"
-  def errorHandler = new ErrorHandler()
-
+  def errorHandler = new ErrorHandler(Mock(ControllerMetrics))
 
   def "Sets correct status code and error message on causeless Exceptions"() {
 

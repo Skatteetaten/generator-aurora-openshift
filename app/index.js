@@ -29,7 +29,7 @@ module.exports = class extends Generator {
         {
           type: 'confirm',
           name: 'oracle',
-          message: 'Do you need an Oracle database name?',
+          message: 'Do you need an Oracle database?',
           default: false
         },
         {
@@ -41,6 +41,7 @@ module.exports = class extends Generator {
             return answers.oracle;
           }
         },
+      /* We do not use this for now, so we just comment it out but leave everything in place
         {
           type: 'confirm',
           name: 'reactive',
@@ -98,7 +99,7 @@ module.exports = class extends Generator {
           when: function (answers) {
             return answers.reactive;
           }
-        },
+        },*/
         {
           type: 'confirm',
           name: 'dbExample',
@@ -116,7 +117,7 @@ module.exports = class extends Generator {
           type: 'confirm',
           name: 'controllerExample',
           message: 'Do you want an example HTTP controller:',
-          default: false,
+          default: true,
         },
         {
           type: 'string',
@@ -136,6 +137,7 @@ module.exports = class extends Generator {
       if (!(!props.topicRead)) {
         props.kafkaSource = true
       }
+      props.reactive=false
 
       props.baseName = this.baseName
       this.parameters = props
