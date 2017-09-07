@@ -32,7 +32,7 @@
 
     <!-- Fill in this one to use staging -->
     <!--<staging-profile-id-med-clm>8815b545f21bd</staging-profile-id-med-clm>-->
-    <nexus-staging-mauven-plugin.version>1.6.8</nexus-staging-mauven-plugin.version>
+    <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
   </properties>
 
   <distributionManagement>
