@@ -212,7 +212,6 @@ module.exports = class extends Generator {
     this.spawnCommandSync('git', ['checkout', '-b', 'dev', '-q']);
     this.spawnCommandSync('git', ['add', '--all']);
     this.spawnCommandSync('git', ['commit', '-m', '"initial commit from aurora-openshift generator"', '-q']);
-    this.spawnCommandSync('mvn', ['clean', 'deploy']);
   }
 
 };
