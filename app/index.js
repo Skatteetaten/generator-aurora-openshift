@@ -1,46 +1,44 @@
 'use strict';
 
+
+var fs = require('fs');
 var Generator = require('yeoman-generator');
+var os = require('os');
 
 module.exports = class extends Generator {
   constructor(args, opts) {
     super(args, opts);
 
     this.argument('name', { type: String, required: true, desc: 'The name of the application' });
-
     this.baseName = this.options.name
 
-  }
-
-
-  prompting() {
-    return this.prompt([
-        {
-          type: 'string',
-          name: 'packageName',
-          message: 'Package name:',
-          default: 'no.skatteetaten.aurora.demo'
-        },
-        {
-          type: 'string',
-          name: 'description',
-          message: 'Description:'
-        },
-        {
-          type: 'confirm',
-          name: 'oracle',
-          message: 'Do you need an Oracle database?',
-          default: false
-        },
-        {
-          type: 'string',
-          name: 'dbName',
-          message: 'Enter database name in Oracle, if empty will not use database:',
-          "default": "db",
-          when: function (answers) {
-            return answers.oracle;
-          }
-        },
+    var prompts = [
+      {
+        type: 'string',
+        name: 'packageName',
+        message: 'Package name:',
+        default: 'no.skatteetaten.aurora.demo'
+      },
+      {
+        type: 'string',
+        name: 'description',
+        message: 'Description:'
+      },
+      {
+        type: 'confirm',
+        name: 'oracle',
+        message: 'Do you need an Oracle database?',
+        default: false
+      },
+      {
+        type: 'string',
+        name: 'dbName',
+        message: 'Enter database name in Oracle, if empty will not use database:',
+        "default": "db",
+        when: function (answers) {
+          return answers.oracle;
+        }
+      },
       /* We do not use this for now, so we just comment it out but leave everything in place
         {
           type: 'confirm',
@@ -100,49 +98,66 @@ module.exports = class extends Generator {
             return answers.reactive;
           }
         },*/
-        {
-          type: 'confirm',
-          name: 'dbExample',
-          message: 'Include database example?',
-          default: true,
-          when: function (answers) {
-            return answers.oracle;
-          }
-        }, {
-          type: 'confirm',
-          name: 'spock',
-          message: 'Use Spock?',
-          default: true
-        }, {
-          type: 'confirm',
-          name: 'controllerExample',
-          message: 'Do you want an example HTTP controller:',
-          default: true,
-        },
+      {
+        type: 'confirm',
+        name: 'dbExample',
+        message: 'Include database example?',
+        default: true,
+        when: function (answers) {
+          return answers.oracle;
+        }
+      }, {
+        type: 'confirm',
+        name: 'spock',
+        message: 'Use Spock?',
+        default: true
+      }, {
+        type: 'confirm',
+        name: 'controllerExample',
+        message: 'Do you want an example HTTP controller:',
+        default: true,
+      },
+      {
+        type: 'string',
+        name: 'maintainer',
+        message: 'Maintainer:',
+        default: this.user.git.name() + " <" + this.user.git.email() + ">"
+      }
+    ]
+    var path = os.homedir() + '/.ao.json'
+    if (fs.existsSync(path)) {
+      var aoText = fs.readFileSync(path, 'utf8')
+      var ao = JSON.parse(aoText)
+      this.affiliation = ao.affiliation
+      prompts.push(
         {
           type: 'string',
-          name: 'maintainer',
-          message: 'Maintainer:',
-          default: this.user.git.name() + " <" + this.user.git.email() + ">"
-        }
-      ]
-    ).then((props) => {
+          name: 'namespace',
+          message: 'Prosjekt i Openshift (vil bli prefixet med :' + this.affiliation + '-):',
+          default: this.user.git.name().split(" ")[0].toLowerCase()
+        })
+    }
+    this.prompts = prompts
+  }
 
+
+  prompting() {
+    return this.prompt(this.prompts).then((props) => {
       props.kafkaSink = false
-      props.kafkaSource = false
-      if (props.topicWrite !== "") {
-        props.kafkaSink = true
-      }
+    props.kafkaSource = false
+    if (props.topicWrite !== "") {
+      props.kafkaSink = true
+    }
 
-      if (!(!props.topicRead)) {
-        props.kafkaSource = true
-      }
-      props.reactive=false
+    if (!(!props.topicRead)) {
+      props.kafkaSource = true
+    }
+    props.reactive = false
 
-      props.baseName = this.baseName
-      this.parameters = props
+    props.baseName = this.baseName
+    this.parameters = props
 
-    })
+  })
 
 
   }
@@ -175,20 +190,20 @@ module.exports = class extends Generator {
         this.destinationPath('src/main/java/' + packageFolder), this.parameters);
     }
 
-    if(this.parameters.reactive){
+    if (this.parameters.reactive) {
 
       let kafkaExampleFolder;
-      if(this.parameters.reactiveHttp) {
-        kafkaExampleFolder="kafkaHttpSink"
-      } else if(this.parameters.kafkaSource && this.parameters.kafkaSink) {
+      if (this.parameters.reactiveHttp) {
+        kafkaExampleFolder = "kafkaHttpSink"
+      } else if (this.parameters.kafkaSource && this.parameters.kafkaSink) {
         kafkaExampleFolder = "kafkaProcessor"
-      } else if(this.parameters.kafkaSource) {
+      } else if (this.parameters.kafkaSource) {
         kafkaExampleFolder = "kafkaSource"
-      } else if(this.parameters.kafkaSink) {
+      } else if (this.parameters.kafkaSink) {
         kafkaExampleFolder = "kafkaSink"
       }
 
-      if(kafkaExampleFolder) {
+      if (kafkaExampleFolder) {
         this.fs.copyTpl(
           this.templatePath('examples/' + kafkaExampleFolder + '/src/main/java/**/*'),
           this.destinationPath('src/main/java/' + packageFolder), this.parameters);
