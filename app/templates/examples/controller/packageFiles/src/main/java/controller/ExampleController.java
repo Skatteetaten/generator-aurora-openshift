@@ -1,4 +1,4 @@
-package <%=packageName%>.controllers;
+package <%=packageName%>.controller;
 
 import static no.skatteetaten.aurora.AuroraMetrics.StatusValue.CRITICAL;
 import static no.skatteetaten.aurora.AuroraMetrics.StatusValue.OK;

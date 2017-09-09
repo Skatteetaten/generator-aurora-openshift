@@ -4,24 +4,17 @@ info:
     auroraVersion: ${aurora.version:local-dev}
     imageBuildTime: ${image.build.time:}
 
-aurora:
-
-    <% if (oracle) { %>
-    #setting a db here will create a datasource from a database with that name.
-    #in AOC config file
-    db: <%=dbName%> <% }
-    if (controllerExample) { %>
-    client:
-        metricsPathLabelGroupings:
-            httpbin: ".*httpbin.org.*"
-     <% } %>
-
+aurora:<% if (oracle) { %>
+    db: <%=dbName%> <% } %>
 
 spring:
   profiles:
     active: local<% if (reactive) { %>
   application:
     name: ${pod.name:<%=consumerGroup%>}
+  devtools:
+    remote:
+      secret: aurora
   cloud:
     stream:
       kafka:
@@ -52,8 +45,7 @@ logging:
 
 ---
 spring:
-  profiles: local
-  <% if (oracle) { %>
+  profiles: local<% if (oracle) { %>
   datasource:
     # id: 02150c29-6ab9-4917-bd56-1ba63d4f46d5"
     url: jdbc:oracle:thin:@uil0map-drivein-db02:1521/dbhotel

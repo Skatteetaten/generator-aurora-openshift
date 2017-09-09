@@ -19,7 +19,7 @@
 
 
   <properties>
-    <aurora.starters.version>3.1.1</aurora.starters.version>
+    <aurora.starters.version>3.1.2</aurora.starters.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
