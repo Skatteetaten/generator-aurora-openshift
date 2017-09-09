@@ -155,6 +155,7 @@ module.exports = class extends Generator {
     props.reactive = false
 
     props.baseName = this.baseName
+    props.affiliation=this.affiliation
     this.parameters = props
 
   })
