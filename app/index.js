@@ -134,7 +134,7 @@ module.exports = class extends Generator {
           type: 'string',
           name: 'namespace',
           message: 'Project in OpenShift (will be prefixed with :' + this.affiliation + '-):',
-          default: this.user.git.name().split(" ")[0].tolowercase()
+          default: this.user.git.name().split(" ")[0].toLowerCase()
         })
     }
     this.prompts = prompts
