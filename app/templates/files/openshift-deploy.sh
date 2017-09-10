@@ -25,7 +25,7 @@ which stern &> /dev/null || exit 0
 echo "Tail logs with stern $name"
 
 after_close() {
-  xdg-open "http://$name-$namespace.utv.paas.skead.no/api/counter"
+  http "http://$name-$namespace.utv.paas.skead.no/api/counter"
 }
 
 trap after_close INT
