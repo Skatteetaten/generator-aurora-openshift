@@ -34,7 +34,7 @@ module.exports = class extends Generator {
         type: 'string',
         name: 'dbName',
         message: 'Enter database name in Oracle, if empty will not use database:',
-        "default": "db",
+        "default": this.baseName,
         when: function (answers) {
           return answers.oracle;
         }
