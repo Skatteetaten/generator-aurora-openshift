@@ -1,4 +1,4 @@
-package <%=packageName%>.controllers;
+package <%=packageName%>.controller;
 
 import java.util.HashMap;
 import java.util.Map;

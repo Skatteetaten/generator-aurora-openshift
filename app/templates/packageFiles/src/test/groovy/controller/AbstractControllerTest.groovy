@@ -1,4 +1,4 @@
-package <%=packageName%>.controllers
+package <%=packageName%>.controller
 
 import org.junit.Rule
 import org.springframework.restdocs.JUnitRestDocumentation

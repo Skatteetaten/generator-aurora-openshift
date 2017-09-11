@@ -1,4 +1,4 @@
-package <%=packageName%>.controllers
+package <%=packageName%>.controller
 
 import org.springframework.http.HttpStatus
 
