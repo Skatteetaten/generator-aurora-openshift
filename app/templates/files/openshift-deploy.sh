@@ -25,7 +25,10 @@ which stern &> /dev/null || exit 0
 echo "Tail logs with stern $name"
 
 after_close() {
-  http "http://$name-$namespace.utv.paas.skead.no/api/counter"
+ url="http://$name-$namespace.utv.paas.skead.no/api/counter"
+ echo "Fetching counter from $url"
+ http url
+ http url
 }
 
 trap after_close INT
