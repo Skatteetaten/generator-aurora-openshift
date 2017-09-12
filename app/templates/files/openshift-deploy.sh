@@ -3,7 +3,7 @@ INFO=$'\033[0;33m'
 CLEAR=$'\033[0m'
 
 header() {
-  printf "$INFO%s\n$CLEAR" "$*"
+  printf "\n\n$INFO%s\n------------\n$CLEAR" "$*"
 }
 oc whoami -t &> /dev/null || echo "Log into oc and ao"
 
@@ -16,9 +16,15 @@ affiliation=$(echo $yoRc | jq ".affiliation" -r)
 namespace=$affiliation-$project
 
 oc get bc "$name" -n $namespace &> /dev/null || (
- header "AO deploy" && ao deploy $project/$name)
+ header "Deploy the application with ao"
+ ao deploy $project/$name
 
-header "Mvn package"
+ header "The following openshift objects are made in $namespace"
+ oc get all -l app=${name} -n ${namespace}
+)
+
+
+header "Package the application with mvn"
 mvn package
 
 leveransepakke=$(find target -type f -name "*-Leveransepakke.zip")
@@ -28,12 +34,15 @@ oc start-build $name --from-file=$leveransepakke --follow --wait -n $namespace
 
 which stern &> /dev/null || exit 0
 
-header "Tail development $name"
+header "Deploy started since ImageStream listen to $name:latest"
 
 after_close() {
  url="http://$name-$namespace.utv.paas.skead.no/api/counter"
  header "URL for application is"
  echo "$url"
+ header "Calling the counter endpoint twice"
+ http "$url"
+ http "$url"
 }
 
 trap after_close INT
