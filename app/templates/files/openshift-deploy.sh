@@ -37,12 +37,9 @@ which stern &> /dev/null || exit 0
 header "Deploy started since ImageStream listen to $name:latest"
 
 after_close() {
- url="http://$name-$namespace.utv.paas.skead.no/api/counter"
+ url="http://$name-$namespace.utv.paas.skead.no"
  header "URL for application is"
  echo "$url"
- header "Calling the counter endpoint twice"
- http "$url"
- http "$url"
 }
 
 trap after_close INT
