@@ -20,20 +20,12 @@ This readme only contains the gist of it and mainly describes Yeoman specific th
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and `generator-aurora-openshift` using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
-
 ```bash
-# via Yarn
-yarn global add yo
-yarn global add generator-aurora-openshift
-
-# via npm
-npm install -g yo
-npm install -g generator-aurora-openshift
+install.sh 
 ```
+This will install nodejs, yo and the generator from source. It is not published on npm registry yet. 
 
-Then generate your application:
-
+Then generate your app
 ```bash
 yo aurora-openshift
 ```

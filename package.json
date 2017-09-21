@@ -1,6 +1,6 @@
 {
   "name": "generator-aurora-openshift",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Yeoman Generator for creating applications to run on the Aurora OpenShift plattform",
   "keywords": [
     "yeoman-generator"
