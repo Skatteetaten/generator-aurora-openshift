@@ -5,7 +5,7 @@ info:
     imageBuildTime: ${image.build.time:}
 
 aurora:<% if (oracle) { %>
-    db: <%=dbName%> <% } %>
+  db: <%=dbName%> <% } %>
 
 spring:
   profiles:
