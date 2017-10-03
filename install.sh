@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-which npm || (
-  echo "Installing node" &&  \
-  sudo apt-get install npm nodejs-legacy &&  \
-  sudo npm install -g yo \
-  sudo chown -R $(whoami) $(sudo npm config get prefix)/{lib/node_modules,bin,share})
+which node || sudo apt-get install nodejs npm -y
 
-which yo || sudo npm install -g yo
+#stupid debian do not use node as executable
+which node || sudo ln -s `which nodejs` /usr/bin/node
 
-sudo npm install -g $DIR
+which npm || sudo apt-get install npm -y
 
+which yo || npm install yo -g --prefix=~/.ao
 
+npm install -g  --prefix=~/.ao https://github.com/Skatteetaten/generator-aurora-openshift
+
+#følgende må brukes for å installere
+echo "~/.ao/bin/yo aurora-openshift <navn> for å lage en app"
