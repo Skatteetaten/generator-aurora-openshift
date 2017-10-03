@@ -173,7 +173,7 @@ module.exports = class extends Generator {
       this.templatePath('files/**/*'),
       this.destinationPath(""), this.parameters);
 
-    this.fs.copyTpl(this.templatePath('files/.gitignore'), this.destinationPath('.gitignore'));
+    this.fs.copyTpl(this.templatePath('dotfiles/gitignore'), this.destinationPath('.gitignore'));
 
     this.fs.copyTpl(
       this.templatePath('packageFiles/src/main/java/**/*'),
