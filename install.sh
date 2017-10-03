@@ -9,6 +9,7 @@ which npm || sudo apt-get install npm -y
 
 which ~/.ao/bin/yo || npm install yo -g --prefix=~/.ao
 
+#hvis vi publiserer på npm registry kan vi sikker få til å sjekke om vi er utdaterte her.
 npm install -g  --prefix=~/.ao https://github.com/Skatteetaten/generator-aurora-openshift
 
 #følgende må brukes for å installere
