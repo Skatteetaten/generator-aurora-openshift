@@ -7,7 +7,7 @@ which node || sudo ln -s `which nodejs` /usr/bin/node
 
 which npm || sudo apt-get install npm -y
 
-which yo || npm install yo -g --prefix=~/.ao
+which ~/.ao/bin/yo || npm install yo -g --prefix=~/.ao
 
 npm install -g  --prefix=~/.ao https://github.com/Skatteetaten/generator-aurora-openshift
 
